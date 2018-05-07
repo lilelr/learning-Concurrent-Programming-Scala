@@ -1,2 +1,14 @@
-*.class
-*.log
+# intellij
+*.iml
+.idea
+
+# ensime
+.ensime
+.ensime_cache
+
+# sbt output
+target
+SCALA-README.md
+url-spec.txt
+
+

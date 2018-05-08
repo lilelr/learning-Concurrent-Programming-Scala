@@ -130,15 +130,32 @@ object FuturesFlatMapRaw extends App {
   import ExecutionContext.Implicits.global
   import scala.io.Source
 
-  val netiquette = Future { Source.fromURL("http://www.ietf.org/rfc/rfc1855.txt").mkString }
-  val urlSpec = Future { Source.fromURL("http://www.w3.org/Addressing/URL/url-spec.txt").mkString }
-  val answer = netiquette.flatMap { nettext =>
-    urlSpec.map { urltext =>
-      "First, read this: " + nettext + ". Now, try this: " + urltext
+//  val netiquette = Future { Source.fromURL("http://www.ietf.org/rfc/rfc1855.txt").mkString }
+//  val urlSpec = Future { Source.fromURL("http://www.w3.org/Addressing/URL/url-spec.txt").mkString }
+////  val answer = netiquette.flatMap { nettext =>
+////    urlSpec.map { urltext =>
+////      "First, read this: " + nettext + ". Now, try this: " + urltext
+////    }
+////  }
+//
+//  val answer = for{
+//    nettext <- netiquette
+//    urltext <- urlSpec
+//  } yield {
+//    "First, read this:" + nettext + ".Now try this:"+urltext
+//  }
+//  answer foreach {
+//    case contents => log(contents)
+//  }
+
+  val netiqueettelUrl =  "http://www.baidu.com"
+  val netiquett = Future{ Source.fromURL(netiqueettelUrl).mkString}
+  val answer2= netiquett recover {
+    case e: java.io.FileNotFoundException =>{
+      "Dear "
     }
   }
-
-  answer foreach {
+  answer2 foreach {
     case contents => log(contents)
   }
   Thread.sleep(3000)

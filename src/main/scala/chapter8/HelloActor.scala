@@ -75,10 +75,23 @@ class CountdownActor extends Actor {
   def receive = counting
 }
 
+class MyCountdownActor extends Actor{
+  var n=20
+
+  def counting: Actor.Receive ={
+    case "lele" =>
+      n -=2
+      log(s"lele = $n")
+      if(n==0) context.become(done)
+  }
+
+  def done = PartialFunction.empty
+  def receive = counting
+}
 
 object ActorsCountdown extends App {
-  val countdown = ourSystem.actorOf(Props[CountdownActor])
-  for (i <- 0 until 20) countdown ! "count"
+  val countdown = ourSystem.actorOf(Props[MyCountdownActor])
+  for (i <- 0 until 20) countdown ! "lele"
   Thread.sleep(1000)
   ourSystem.terminate()
 }
